@@ -1,17 +1,28 @@
 'use strict'
 
-/** @typedef {import('@adonisjs/framework/src/Request')} Request */
-/** @typedef {import('@adonisjs/framework/src/Response')} Response */
-/** @typedef {import('@adonisjs/framework/src/View')} View */
-
-
+// services
+const categoryService = use('App/Services/CategoryService')
 class CategoryController {
 
-  async index ({ request, response, view }) {
-    return response.json("Hello Zahid")
+  async index ({ response }) {
+    try {
+      let categoryData = await categoryService.index()
+      return response.json({ "status": "success", "data": categoryData })
+    } catch (error) {
+      console.log(error)
+      return response.json({ "status": "error", "msg": "Exception appear!!!" })
+    }
   }
 
   async store ({ request, response }) {
+    try {
+      let payload = request.all()
+      if(categoryService.store(payload)){
+        return response.json({ "status": "success", "msg": "Category saved!!!" })
+      }
+    } catch (error) {
+      return response.json({ "status": "error", "msg": "Exception appear category failed to save!!!" })
+    }
   }
 
   async show ({ params, request, response, view }) {

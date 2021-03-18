@@ -9,6 +9,8 @@ Route.on('/').render('welcome')
 
 // routes for categories
 Route.group(() => {
-    Route.resource('categories', 'CategoryController').apiOnly()
+    Route.resource('categories', 'CategoryController').apiOnly().validator(new Map([
+        [['categories.store'], ['StoreCategory']]
+    ]))
 }).prefix('api/v1')
 
