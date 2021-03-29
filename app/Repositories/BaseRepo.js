@@ -11,4 +11,4 @@ class BaseRepo{
     }
 }
 
-module.exports = new BaseRepo
+module.exports = BaseRepo

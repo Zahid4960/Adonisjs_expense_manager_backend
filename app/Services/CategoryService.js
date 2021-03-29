@@ -4,16 +4,16 @@
 const category = use('App/Models/Category')
 
 // repositories
-const baseRepo = use('App/Repositories/BaseRepo')
+const categoryRepo = use('App/Repositories/CategoryRepo')
 
 class CategoryService {
 
     async index(){
-        return await baseRepo.getAll(category)
+        return await categoryRepo.getAll(category)
     }
 
     async store(payload){
-        return await baseRepo.saveData(category, payload)
+        return await categoryRepo.saveData(category, payload)
     }
 }
 

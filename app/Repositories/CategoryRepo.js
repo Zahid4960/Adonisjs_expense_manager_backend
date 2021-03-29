@@ -1,8 +1,8 @@
 'use strict'
 
-const Category = use('App/Models/Category')
+const baseRepo = use('App/Repositories/BaseRepo')
 
-class CategoryRepo {
+class CategoryRepo extends baseRepo{
 }
 
 module.exports = new CategoryRepo
