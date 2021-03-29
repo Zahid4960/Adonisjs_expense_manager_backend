@@ -1,11 +1,16 @@
 'use strict'
 
+const Registration = require("../app/Validators/Registration");
+
 const Route = use('Route')
-const CategoryController = require('../app/Controllers/Http/CategoryController')
 
-Route.on('/').render('welcome')
+Route.get("/", ({ response }) => {
+    response.json("Welcome to the expense manager powered by Adonisjs!!!");
+})
 
-// routes for categories
+Route.post("login", "AuthController.login").validator("Login")
+Route.post("registration", "AuthController.registration").validator("Registration")
+
 Route.group(() => {
     Route.resource('categories', 'CategoryController').apiOnly().validator(new Map([
         [['categories.store'], ['StoreCategory']]
