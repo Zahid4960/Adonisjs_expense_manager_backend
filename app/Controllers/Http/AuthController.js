@@ -1,30 +1,35 @@
 'use strict'
 
 const User = use("App/Models/User")
-const auth = require("../../../config/auth")
+const Hash = use("Hash")
+
 class AuthController {
 
-    async login({ requets, response }){
-        response.json("hello from login")
+    async login({ auth, request, response }){
+        try {
+            let data = request.all()
+            let token = await auth.attempt(data.email, data.password);
+            let user_data = await User.findBy("email", data.email)
+            return response.json({ "status": "success", "msg": "Login successful!!!", "data": user_data, "token": token.token })
+        } catch (error) {
+            return response.json({ "status": "error", "msg": "Exception appear to login!!!", "exception": error.message })
+        }
     }
 
-    async registration({ request, response }){
+    async registration({ auth, request, response }){
         let data = request.all()
-        let email = data.email
-        let encryptedPassword = "dfsigushgih"
-        let data_array = { 
+        let encryptedPassword = await Hash.make(data.password)
+        let user_data = { 
             email: data.email, 
             userName: data.userName, 
             encryptedPassword: encryptedPassword, 
             plainPassword: data.password 
         }
 
-        // return response.json(data_array)
         try{
-            let user = await User.create(data_array)
-            console.log(user)
-            const token = await auth.generate(user)
-            return response.json({ "status": "success", "msg": "User created successfully!!!", "data": user, "token": token })
+            let user = await User.create(user_data)
+            let token = await auth.generate(user)
+            return response.json({ "status": "success", "msg": "User created successfully!!!", "data": user, "token": token.token })
         }catch(error){
             console.log(error)
             return response.json({ "status": "error", "msg": "Exception appear failed to create user!!!", "exception": error.message })
