@@ -1,8 +1,6 @@
 'use strict'
 
-/** @type {import('@adonisjs/lucid/src/Schema')} */
 const Schema = use('Schema')
-
 class ExpenseSchema extends Schema {
   up () {
     this.create('expenses', (table) => {
@@ -10,9 +8,11 @@ class ExpenseSchema extends Schema {
       table.string('title').notNullable()
       table.string('description')
       table.float('amount').notNullable()
-      table.integer('categoryId').notNullable()
-      table.integer('userId').notNullable()
-      table.date('expense_date').notNullable()
+      table.date('expense_date').notNullable().index()
+
+      table.integer('categoryId').unsigned().notNullable().index().references("id").inTable("categories")
+      table.integer('userId').unsigned().notNullable().index().references("id").inTable("users")
+
       table.timestamps()
     })
   }

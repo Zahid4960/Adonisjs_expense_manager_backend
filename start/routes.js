@@ -1,7 +1,5 @@
 'use strict'
 
-/** @type {typeof import('@adonisjs/framework/src/Route/Manager')} */
-
 const Route = use('Route')
 const CategoryController = require('../app/Controllers/Http/CategoryController')
 
