@@ -14,7 +14,7 @@ class UserInfoSchema extends Schema {
       table.string('nid')
       table.string('mobile')
 
-      table.integer('userId').unsigned().notNullable().unique().references("id").inTable("users")
+      table.integer('userId').unsigned().notNullable().unique().references("id").inTable("users").onUpdate("CASCADE").onDelete("CASCADE")
 
       table.timestamps()
     })
