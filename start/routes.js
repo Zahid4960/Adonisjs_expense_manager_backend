@@ -15,5 +15,5 @@ Route.group(() => {
     Route.resource('categories', 'CategoryController').apiOnly().validator(new Map([
         [['categories.store'], ['StoreCategory']]
     ]))
-}).middleware("auth").prefix('api/v1')
+}).middleware("authentication").prefix('api/v1')
 

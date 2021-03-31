@@ -8,9 +8,7 @@ class TargatedExpenseSchema extends Schema {
       table.float('amount').notNullable()
       table.date('fromDate').notNullable().index()
       table.date('todate').notNullable().index()
-
       table.integer('userId').unsigned().notNullable().index().references("id").inTable("users").onUpdate("CASCADE").onDelete("CASCADE")
-      
       table.timestamps()
     })
   }

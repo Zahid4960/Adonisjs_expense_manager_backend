@@ -2,13 +2,13 @@
 
 const User = use("App/Models/User")
 const Hash = use("Hash")
-
 class AuthController {
 
     async login({ auth, request, response }){
         try {
             let data = request.all()
-            let token = await auth.attempt(data.email, data.password);
+            let password = String(data.password)
+            let token = await auth.attempt(data.email, password);
             let user_data = await User.findBy("email", data.email)
             return response.json({ "status": "success", "msg": "Login successful!!!", "data": user_data, "token": token.token })
         } catch (error) {
@@ -18,14 +18,14 @@ class AuthController {
 
     async registration({ auth, request, response }){
         let data = request.all()
-        let encryptedPassword = await Hash.make(data.password)
+        let password = String(data.password)
+        let encryptedPassword = await Hash.make(password)
         let user_data = { 
             email: data.email, 
             userName: data.userName, 
             encryptedPassword: encryptedPassword, 
-            plainPassword: data.password 
+            plainPassword: password 
         }
-
         try{
             let user = await User.create(user_data)
             let token = await auth.generate(user)
